@@ -13,7 +13,7 @@ export default (editor, config = {}) => {
   const defaultView = defaultType.view;
   const { sliderName, slideName, sliderId, slideId } = constants;
 
-  Slider(dc, config);
+  Slider(editor, config);
   Slides(dc, config);
   Slide(dc, config);
   NavPrev(dc, config);

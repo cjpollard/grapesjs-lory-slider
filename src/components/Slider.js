@@ -1,6 +1,7 @@
 import constants from '../constants';
 
-export default (dc, config = {}) => {
+export default (em, config = {}) => {
+  const dc = em.DomComponents;
   const defaultType = dc.getType('default');
   const defaultModel = defaultType.model;
   const defaultView = defaultType.view;
@@ -138,10 +139,41 @@ export default (dc, config = {}) => {
             document.head.appendChild(script);
           } else {
             initSlider();
+            this.initToolbar();
           }
         },
         ...config.sliderProps
       },
+
+      initToolbar(...args) {
+        defaultModel.prototype.initToolbar.apply(this, args);
+        const em = this.em;
+
+        if(em) {
+          const cmd = em.get('Commands');
+          const cmdName = 'slider-edit';
+
+          if(cmd.has(cmdName)) {
+            let hasButton = false;
+            const tb = this.get('toolbar');
+
+            for(let i=0; i < tb.length; i++) {
+              if(tb[i].command === 'slider-edit') {
+                hasButton = true;
+                break;
+              }
+            }
+
+            if(!hasButton) {
+              tb.push({
+                attributes: {class: 'fa fa-pencil'},
+                command: cmdName
+              });
+              this.set('toolbar', tb);
+            }
+          }
+        }
+      }
     }, {
       isComponent(el) {
         if (el.hasAttribute && el.hasAttribute(sliderId)) {

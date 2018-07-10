@@ -22,12 +22,12 @@ module.exports = (env = {}) => {
   return {
     entry: './src',
     output: {
-        filename: `./dist/${name}.min.js`,
+        filename: `./${name}.min.js`,
         library: name,
         libraryTarget: 'umd',
     },
     module: {
-      loaders: [{
+      rules: [{
           test: /\.js$/,
           loader: 'babel-loader',
           include: /src/,

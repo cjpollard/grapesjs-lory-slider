@@ -139,7 +139,6 @@ export default (em, config = {}) => {
             document.head.appendChild(script);
           } else {
             initSlider();
-            this.initToolbar();
           }
         },
         ...config.sliderProps

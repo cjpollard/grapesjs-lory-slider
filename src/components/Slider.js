@@ -35,6 +35,9 @@ export default (em, config = {}) => {
         // Enabled mouse events
         'enable-mouse-events': false,
 
+        // Number of slides
+        'slide-amount': 3,
+
         // Time in milliseconds for the animation of a valid slide attempt
         'slide-speed': 300,
 
@@ -72,6 +75,11 @@ export default (em, config = {}) => {
           label: 'Rewind',
           name: 'rewind',
           changeProp: 1,
+        },{
+          type: 'number',
+          label: 'Number of slides',
+          name: 'slide-amount',
+          changeProp: 1
         },{
           type: 'number',
           label: 'Slide speed',
@@ -118,6 +126,7 @@ export default (em, config = {}) => {
             enableMouseEvents: falsies.indexOf('{[ enable-mouse-events ]}') >= 0 ? 0 : 1,
             infinite: isNaN(infinite) ? false : infinite,
             rewind: falsies.indexOf('{[ rewind ]}') >= 0 ? false : true,
+            slideAmount: parseInt('{[ slide-amount ]}', 10),
             slideSpeed: parseInt('{[ slide-speed ]}', 10),
             rewindSpeed: parseInt('{[ rewind-speed ]}', 10),
             snapBackSpeed: parseInt('{[ snap-back-speed ]}', 10),
@@ -142,6 +151,30 @@ export default (em, config = {}) => {
           }
         },
         ...config.sliderProps
+      },
+
+      init(...args) {
+        defaultModel.prototype.init.apply(this, args);
+        this.listenTo(this, 'change:slide-amount', this.updateSlides);
+      },
+
+      updateSlides(model, slideAmount) {
+        let slides = model.components().at(0).components().at(0).components();
+        if(slides.length > 0) {
+          if(slideAmount < slides.length) {
+            const diff = slides.length - slideAmount;
+            for(let j=0; j<diff; j++) {
+              slides.pop();
+            }
+          }
+          if(slideAmount > slides.length) {
+            const diff = slideAmount - slides.length;
+            for(let i=0; i<diff; i++) {
+              const newSlide = slides.at(1).clone();
+              slides.push(newSlide);
+            }
+          }
+        }
       },
 
       initToolbar(...args) {
@@ -184,7 +217,7 @@ export default (em, config = {}) => {
     view: defaultView.extend({
       init() {
         const props = ['slides-to-scroll', 'enable-mouse-events', 'slide-speed',
-          'rewind-speed', 'snap-back-speed', 'infinite', 'rewind', 'ease'];
+          'rewind-speed', 'snap-back-speed', 'infinite', 'rewind', 'ease', 'slide-amount'];
         const reactTo = props.map(prop => `change:${prop}`).join(' ');
         this.listenTo(this.model, reactTo, this.render);
         const comps = this.model.components();

@@ -61,8 +61,9 @@ export default (em, config = {}) => {
 
         style: {
           position: 'relative',
-          width: '980px',
+          width: '100%',
           margin: '0 auto',
+          padding: '5px 0'
         },
 
         traits: [{

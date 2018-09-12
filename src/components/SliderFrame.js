@@ -15,7 +15,7 @@ export default (dc, config = {}) => {
         name: 'Slider Frame',
         droppable: slidesSelector,
         style: {
-          width: '880px',
+          width: '100%',
           margin: '0 auto',
           position: 'relative',
           overflow: 'hidden',

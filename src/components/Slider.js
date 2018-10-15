@@ -171,7 +171,7 @@ export default (em, config = {}) => {
           if(slideAmount > slides.length) {
             const diff = slideAmount - slides.length;
             for(let i=0; i<diff; i++) {
-              const newSlide = slides.at(1).clone();
+              const newSlide = slides.at(slides.length-1).clone();
               slides.push(newSlide);
             }
           }

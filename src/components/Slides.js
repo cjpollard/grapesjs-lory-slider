@@ -16,6 +16,7 @@ export default (dc, config = {}) => {
         draggable: frameSelector,
         style: {
           display: 'inline-block',
+          width: '100%',
           'transition-delay': '1ms'
         },
         ...config.slidesProps

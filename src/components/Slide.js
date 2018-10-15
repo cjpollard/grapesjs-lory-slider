@@ -2,7 +2,7 @@ import constants from '../constants';
 import { elHasClass } from '../utils';
 
 export default (dc, config = {}) => {
-  const defaultType = dc.getType('default');
+  const defaultType = dc.getType('image');
   const defaultModel = defaultType.model;
   const defaultView = defaultType.view;
   const { slideName, slideId, slidesSelector } = constants;
